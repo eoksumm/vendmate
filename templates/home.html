@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}VendMate - Machines{% endblock %}
+{% block content %}
+  <h1>Choose a machine</h1>
+  <ul class="machine-list">
+    {% for machine in machines %}
+      <li>
+        <a href="{{ url_for('machine_detail', machine_id=machine.machine_id) }}">
+          <strong>{{ machine.machine_id }}</strong> - {{ machine.location }}
+        </a>
+        {% if machine.exact_change_only %}<span class="badge">exact change only</span>{% endif %}
+        {% if session.get('username') == 'admin' %}
+          <a class="admin-link" href="{{ url_for('admin_machine', machine_id=machine.machine_id) }}">manage</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

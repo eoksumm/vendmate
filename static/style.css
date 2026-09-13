@@ -1,0 +1,16 @@
+body { font-family: -apple-system, Helvetica, Arial, sans-serif; max-width: 780px; margin: 0 auto; padding: 1.5rem; color: #222; }
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.brand { font-weight: bold; font-size: 1.2rem; text-decoration: none; color: #c26a1a; }
+nav a, nav span { margin-left: 1rem; }
+form.inline { display: inline-block; margin: 0 0.3rem 0 0; }
+.flashes { background: #fff3cd; border: 1px solid #e0c36a; padding: 0.7rem 1rem; list-style: none; border-radius: 4px; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+th, td { border: 1px solid #ddd; padding: 0.4rem 0.6rem; text-align: left; }
+th { background: #f2ede6; }
+.badge { background: #eee; border-radius: 3px; padding: 0.1rem 0.4rem; font-size: 0.8rem; color: #555; }
+.coin-buttons button { margin-right: 0.4rem; }
+form.stacked label { display: block; margin-bottom: 0.7rem; }
+.hint { color: #777; font-size: 0.85rem; }
+.machine-list { list-style: none; padding: 0; }
+.machine-list li { padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+.admin-link { margin-left: 1rem; font-size: 0.85rem; }

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Revenue - VendMate{% endblock %}
+{% block content %}
+  <h1>Revenue report</h1>
+  <table>
+    <thead><tr><th>Machine</th><th>Location</th><th>Total revenue</th></tr></thead>
+    <tbody>
+      {% for machine in machines %}
+      <tr>
+        <td>{{ machine.machine_id }}</td>
+        <td>{{ machine.location }}</td>
+        <td>{{ "%.2f"|format(report.get(machine.machine_id, 0) / 100) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

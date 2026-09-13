@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Manage {{ machine.machine_id }} - VendMate{% endblock %}
+{% block content %}
+  <h1>Manage {{ machine.machine_id }} - {{ machine.location }}</h1>
+
+  <section>
+    <h2>Slots</h2>
+    <table>
+      <thead><tr><th>Code</th><th>Product</th><th>Price</th><th>Stock</th></tr></thead>
+      <tbody>
+        {% for code, slot in machine.slots.items() %}
+        <tr>
+          <td>{{ code }}</td><td>{{ slot.name }}</td>
+          <td>{{ "%.2f"|format(slot.price_cents / 100) }}</td>
+          <td>{{ slot.quantity }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Restock a slot</h2>
+    <form action="{{ url_for('admin_restock', machine_id=machine.machine_id) }}" method="post" class="inline">
+      <input type="text" name="code" placeholder="slot code, e.g. A1" required>
+      <input type="number" name="quantity" placeholder="quantity to add" min="0" required>
+      <button type="submit">Restock</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Change a price</h2>
+    <form action="{{ url_for('admin_price', machine_id=machine.machine_id) }}" method="post" class="inline">
+      <input type="text" name="code" placeholder="slot code" required>
+      <input type="number" name="price_cents" placeholder="new price (cents)" min="1" required>
+      <button type="submit">Update price</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Load coins into the float</h2>
+    <p>Current float: {% for denom, count in machine.coin_float.items() %}{{ "%.2f"|format(denom/100) }} &times;{{ count }}{{ ", " if not loop.last }}{% endfor %}</p>
+    <form action="{{ url_for('admin_coins', machine_id=machine.machine_id) }}" method="post" class="inline">
+      <select name="denomination" required>
+        {% for denom in [100, 50, 25, 10, 5, 1] %}
+          <option value="{{ denom }}">{{ "%.2f"|format(denom/100) }}</option>
+        {% endfor %}
+      </select>
+      <input type="number" name="count" placeholder="count to add" min="0" required>
+      <button type="submit">Load</button>
+    </form>
+  </section>
+
+  <p><a href="{{ url_for('home') }}">&larr; back to machines</a></p>
+{% endblock %}

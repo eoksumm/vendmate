@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ machine.machine_id }} - VendMate{% endblock %}
+{% block content %}
+  <h1>{{ machine.machine_id }} - {{ machine.location }}</h1>
+  {% if machine.exact_change_only %}
+    <p class="badge">This machine only dispenses change it can make exactly.</p>
+  {% endif %}
+
+  <section>
+    <h2>Slots</h2>
+    <table>
+      <thead><tr><th>Code</th><th>Product</th><th>Price</th><th>Stock</th><th></th></tr></thead>
+      <tbody>
+        {% for code, slot in machine.slots.items() %}
+        <tr>
+          <td>{{ code }}</td>
+          <td>{{ slot.name }}</td>
+          <td>{{ "%.2f"|format(slot.price_cents / 100) }}</td>
+          <td>{{ slot.quantity }}{% if slot.quantity == 0 %} <span class="badge">out of stock</span>{% endif %}</td>
+          <td>
+            <form action="{{ url_for('buy', machine_id=machine.machine_id) }}" method="post" class="inline">
+              <input type="hidden" name="code" value="{{ code }}">
+              <button type="submit" {% if slot.quantity == 0 %}disabled{% endif %}>Buy</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Insert coins</h2>
+    <p>Current balance: <strong>{{ "%.2f"|format(machine.balance_cents / 100) }}</strong></p>
+    <form action="{{ url_for('insert_coin', machine_id=machine.machine_id) }}" method="post" class="coin-buttons">
+      {% for denom in [100, 50, 25, 10, 5, 1] %}
+        <button type="submit" name="denomination" value="{{ denom }}">{{ "%.2f"|format(denom / 100) }}</button>
+      {% endfor %}
+    </form>
+    <form action="{{ url_for('cancel', machine_id=machine.machine_id) }}" method="post">
+      <button type="submit">Cancel &amp; refund</button>
+    </form>
+  </section>
+
+  <p><a href="{{ url_for('home') }}">&larr; back to machines</a></p>
+{% endblock %}

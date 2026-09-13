@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}My purchases - VendMate{% endblock %}
+{% block content %}
+  <h1>Purchase history for {{ username }}</h1>
+  {% if history %}
+    <table>
+      <thead><tr><th>When</th><th>Machine</th><th>Product</th><th>Price</th><th>Change</th></tr></thead>
+      <tbody>
+        {% for record in history %}
+        <tr>
+          <td>{{ record.at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ record.machine_id }}</td>
+          <td>{{ record.purchase.product_name }}</td>
+          <td>{{ "%.2f"|format(record.purchase.price_cents / 100) }}</td>
+          <td>{{ "%.2f"|format(record.purchase.change_cents / 100) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No purchases yet.</p>
+  {% endif %}
+{% endblock %}

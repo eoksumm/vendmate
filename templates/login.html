@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Log in - VendMate{% endblock %}
+{% block content %}
+  <h1>Log in</h1>
+  <form method="post" class="stacked">
+    <label>Username <input type="text" name="username" required></label>
+    <label>Password <input type="password" name="password" required></label>
+    <button type="submit">Log in</button>
+  </form>
+  <p>No account? <a href="{{ url_for('register') }}">Register</a></p>
+  <p class="hint">Demo admin account: <code>admin</code> / <code>admin123</code></p>
+{% endblock %}
